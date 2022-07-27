@@ -7,10 +7,16 @@ db = SQLAlchemy(app)
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    #create a table for bands and connect with id by using foreign key
+    band_name = db.Column(db.String(200), nullable=False)
+    show_venue_address = db.Column(db.String(200), nullable=False)
+    show_date = db.Column(db.DateTime)
+
+    def __repr__(self):
+        return '<Event %r>' % self.id
     
 
-@app.route('/index')
-@app.route('/')
+@app.route('/', meth)
 def index():
     return render_template('index.html')
 
