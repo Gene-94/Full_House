@@ -3,12 +3,21 @@
 {% block Title %}Full House - New Show{% endblock %}
 
 {% block body %}
-
-<h3>Register show</h3>
-
-<p>insert your band and show details</p>
-<form action="" method="post">
-    <textarea name="" id="" cols="30" rows="10"></textarea>
-</form>
+<div>
+    <h3>Register show</h3>
+    
+    <p>insert your band and show details below</p>
+    <div class="form">
+        <form action="/new-show" method="post">
+            <input type="text" name="band_name" id="band_name" placeholder="Your band name">
+            <br>
+            <input type="text" name="venue_name" id="venue_name" placeholder="Where is the show happening">
+            <br>
+            <input type="datetime-local" name="event_date" id="event_date">
+            <br>
+            <input type="submit" value="Add Event">
+        </form>
+    </div>
+</div>
 
 {% endblock %}

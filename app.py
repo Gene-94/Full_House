@@ -15,8 +15,8 @@ class Event(db.Model):
     def __repr__(self):
         return '<Event %r>' % self.id
     
-
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/index')
+@app.route('/')
 def index():
     return render_template('index.html')
 
