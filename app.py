@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALVHEMY_DATAASE_URI'] = 'sqlite:///shows.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shows.db'
 db = SQLAlchemy(app)
 
 class Event(db.Model):
@@ -10,13 +10,13 @@ class Event(db.Model):
     #create a table for bands and connect with id by using foreign key
     band_name = db.Column(db.String(200), nullable=False)
     show_venue_address = db.Column(db.String(200), nullable=False)
-    show_date = db.Column(db.DateTime)
+    show_date = db.Column(db.DateTime, nullable=False)
 
     def __repr__(self):
         return '<Event %r>' % self.id
     
 
-@app.route('/', meth)
+@app.route('/', methods=['POST', 'GET'])
 def index():
     return render_template('index.html')
 
