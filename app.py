@@ -1,28 +1,28 @@
-from flask import Flask, render_template, url_for
-from flask_sqlalchemy import SQLAlchemy
+import mysql.connector
+from mysql.connector import Error
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shows.db'
-db = SQLAlchemy(app)
 
+def connect():
+    """connect to existing dummy database"""
+
+    conn = None
+    try:
+        conn = mysql.connector.connect(host='localhost',
+                                     database='Shows',
+                                     user='fullhouse',
+                                     password='my_flask_API')
+        if conn.is_connected():
+            print('Connected successfully to database')
+    except Error as e:
+        print(e)
+    finally:
+        if conn is not None and conn.is_connected():
+            conn.close()
+
+
+if __name__ == '__main__':
+    connect()
 #connect to existing db
 
     
 #reroute from html templates to swagger endpoints
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/shows')
-def shows():
-    return render_template('for_users.html')
-
-@app.route('/new-show')
-def new_show():
-    return render_template('for_bands.html')
-
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
