@@ -2,26 +2,24 @@ import mysql.connector
 from mysql.connector import Error
 
 
-def connect():
-    """connect to existing dummy database"""
+try:
+    db = mysql.connector.connect(host='localhost',
+                                    database='Shows',
+                                    user='fullhouse',
+                                    password='my_flask_API')
+    if db.is_connected():
+        print('Connected successfully to database')
+except Error as e:
+    print(e)
 
-    conn = None
-    try:
-        conn = mysql.connector.connect(host='localhost',
-                                     database='Shows',
-                                     user='fullhouse',
-                                     password='my_flask_API')
-        if conn.is_connected():
-            print('Connected successfully to database')
-    except Error as e:
-        print(e)
-    finally:
-        if conn is not None and conn.is_connected():
-            conn.close()
+cur = db.cursor()
+query = 'select name, id from artists'
+cur.execute(query)
+for (name, id) in cur:
+    print("artist name: {}\nartist id: {}").format(name, id)
 
-
-if __name__ == '__main__':
-    connect()
+if db is not None and db.is_connected():
+    db.close()    
 #connect to existing db
 
     
