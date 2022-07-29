@@ -1,24 +1,44 @@
-import mysql.connector
-from mysql.connector import Error
-from flask import Flask
-from flask_restplus import Api, Resource
+# import mysql.connector
+# from mysql.connector import Error
+from flask import Flask, request
+# from flask_restplus import Api, Resource
 
-flask_app = Flask(__name__)
-app = Api(app = flask_app)
+app = Flask(__name__)
 
-name_space = app.namespace('api', description='Full House Api')
-
-@name_space.route('/')
-class MainClass(Resource):
-    def get(self):
+@app.route('/api/shows', methods=['POST', 'GET'])
+def shows():
+    if request.method == 'GET':
         return {
-            "status" : "Got new data"
+            'message' : 'This endpoint should be a list of shows',
+            'method' : request.method
         }
-    def post(self):
+    if request.method == 'POST':
         return {
-            "status" : "Posted new data"
+            'message' : 'This endpoint should create a show',
+            'method' : request.method,
+            'body' : request.json
         }
 
+@app.route('/api/show/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+def show(id):
+    if request.method == 'GET':
+        return {
+            'id': id,
+            'message': 'This endpoint should return the show {} details'.format(id),
+            'method': request.method 
+        }
+    if request.method == 'PUT':
+        return{
+            'id':id,
+            'message': 'This endpoint should update show {}'.format(id),
+            'body': request.json 
+        }
+    if request.method == "DELETE":
+        return {
+            'id': id,
+            'message': 'This endpoint should delete the show {}'.format(id),
+            'method': request.method
+        }
 
 # try:
 #     db = mysql.connector.connect(host='localhost',
