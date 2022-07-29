@@ -5,9 +5,23 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
+try:
+    db = mysql.connector.connect(host='localhost',
+                                    database='Shows',
+                                    user='fullhouse',
+                                    password='my_flask_API')
+    if db.is_connected():
+        print('Connected successfully to database')
+except Error as e:
+    print(e)
+
+cur = db.cursor()
+
+
 @app.route('/api/shows', methods=['POST', 'GET'])
 def shows():
     if request.method == 'GET':
+        cur.execute()
         return {
             'message' : 'This endpoint should be a list of shows',
             'method' : request.method
@@ -40,25 +54,11 @@ def show(id):
             'method': request.method
         }
 
-# try:
-#     db = mysql.connector.connect(host='localhost',
-#                                     database='Shows',
-#                                     user='fullhouse',
-#                                     password='my_flask_API')
-#     if db.is_connected():
-#         print('Connected successfully to database')
-# except Error as e:
-#     print(e)
 
-# cur = db.cursor()
-# query = 'select name, id from artists'
-# cur.execute(query)
-# for (name, id) in cur:
-#     print("artist name: {}\nartist id: {}").format(name, id)
 
-# if db is not None and db.is_connected():
-#     db.close()    
-#connect to existing db
+if db is not None and db.is_connected():
+    db.close()    
+
 
     
-#reroute from html templates to swagger endpoints
+
