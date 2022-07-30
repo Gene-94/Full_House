@@ -1,9 +1,10 @@
-# import mysql.connector
-# from mysql.connector import Error
+import mysql.connector
+from mysql.connector import Error
 from flask import Flask, request
 # from flask_restplus import Api, Resource
 
 app = Flask(__name__)
+
 
 try:
     db = mysql.connector.connect(host='localhost',
@@ -17,14 +18,17 @@ except Error as e:
 
 cur = db.cursor()
 
+if __name__ == '__main__':
+    app.run()
+
 
 @app.route('/api/shows', methods=['POST', 'GET'])
 def shows():
     if request.method == 'GET':
-        cur.execute()
-        return {
-            'message' : 'This endpoint should be a list of shows',
-            'method' : request.method
+        cur.execute("SELECT name, event_date FROM event")
+        for x in curr: return {
+            'event name' : name,
+            'event date' : event_date
         }
     if request.method == 'POST':
         return {
