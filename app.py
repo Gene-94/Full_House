@@ -18,8 +18,7 @@ except Error as e:
 
 cur = db.cursor()
 
-if __name__ == '__main__':
-    app.run()
+
 
 
 @app.route('/api/shows', methods=['POST', 'GET'])
@@ -59,6 +58,8 @@ def show(id):
         }
 
 
+if __name__ == '__main__':
+    app.run()
 
 if db is not None and db.is_connected():
     db.close()    
