@@ -1,22 +1,30 @@
-import mysql.connector
-from mysql.connector import Error
 from flask import Flask, request
+from flask_sqlalchemy import SQLAlchemy
 # from flask_restplus import Api, Resource
 
 app = Flask(__name__)
 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://fullhouse:my_flask_API@localhost/Shows'
 
-try:
-    db = mysql.connector.connect(host='localhost',
-                                    database='Shows',
-                                    user='fullhouse',
-                                    password='my_flask_API')
-    if db.is_connected():
-        print('Connected successfully to database')
-except Error as e:
-    print(e)
+db = SQLAlchemy(app)
 
-cur = db.cursor()
+class event(db.Model):
+    event_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(250), nullable=True )
+    venue_id = db.Column(db.Integer, nullable=False)
+    event_date = db.Column(db.DateTime, nullable=False)
+
+    def __repr__(self):
+        return '<Name %r>' % self.name
+
+class bands(db.Model):
+    band_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(250), nullable=True )
+    created_date = db.Column(db.DateTime, nullable=False)
+    music_genre = db.Column(db.String(100), nullable=True)
+
+    def __repr__(self):
+        return '<Name %r>' % self.name
 
 
 
@@ -25,7 +33,7 @@ cur = db.cursor()
 def shows():
     if request.method == 'GET':
         cur.execute("SELECT name, event_date FROM event")
-        for x in curr: return {
+        return {
             'event name' : name,
             'event date' : event_date
         }
@@ -58,11 +66,11 @@ def show(id):
         }
 
 
+
+
 if __name__ == '__main__':
     app.run()
 
-if db is not None and db.is_connected():
-    db.close()    
 
 
     
