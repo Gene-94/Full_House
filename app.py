@@ -1,5 +1,6 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
+import json
 # from flask_restplus import Api, Resource
 
 app = Flask(__name__)
@@ -27,16 +28,11 @@ class bands(db.Model):
         return '<Name %r>' % self.name
 
 
-
-
 @app.route('/api/shows', methods=['POST', 'GET'])
 def shows():
     if request.method == 'GET':
-        cur.execute("SELECT name, event_date FROM event")
-        return {
-            'event name' : name,
-            'event date' : event_date
-        }
+        q = db.session.query(event.event_id)
+        return json.dumps([dict(r) for r in q])
     if request.method == 'POST':
         return {
             'message' : 'This endpoint should create a show',
